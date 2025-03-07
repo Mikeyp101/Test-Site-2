@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTM Test Site</title>
+
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        button, input[type="submit"] { padding: 10px 15px; margin: 10px; cursor: pointer; }
+        iframe { margin: 20px auto; display: block; }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to the GTM Test Site</h1>
+    
+    <!-- 🔹 Button Click Tracking -->
+    <button id="testButton">Click Me</button>
+
+    <!-- 🔹 Form Submission Tracking -->
+    <h2>Test Form 1</h2>
+    <form id="testForm1">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <input type="submit" value="Submit Form 1">
+    </form>
+
+    <h2>Test Form 2</h2>
+    <form id="testForm2">
+        <input type="text" name="feedback" placeholder="Your Feedback" required>
+        <input type="submit" value="Submit Form 2">
+    </form>
+
+    <!-- 🔹 YouTube Video Tracking -->
+    <h2>Test YouTube Video</h2>
+    <iframe width="560" height="315"
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1"
+        id="testYouTubeVideo"
+        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+    </iframe>
+
+    <!-- 🔹 Outbound Link Tracking -->
+    <h2>Outbound Links</h2>
+    <p><a href="https://www.google.com" target="_blank" class="outbound-link">Go to Google</a></p>
+    <p><a href="https://www.github.com" target="_blank" class="outbound-link">Go to GitHub</a></p>
+
+    <!-- JavaScript for YouTube API Tracking -->
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        function onYouTubeIframeAPIReady() {
+            var player = new YT.Player('testYouTubeVideo', {
+                events: {
+                    'onStateChange': function(event) {
+                        if (event.data == YT.PlayerState.PLAYING) {
+                            console.log("YouTube Video Played");
+                        }
+                        if (event.data == YT.PlayerState.PAUSED) {
+                            console.log("YouTube Video Paused");
+                        }
+                        if (event.data == YT.PlayerState.ENDED) {
+                            console.log("YouTube Video Completed");
+                        }
+                    }
+                }
+            });
+        }
+
+        // Log form submission events
+        document.getElementById('testForm1').addEventListener('submit', function() {
+            console.log("Form 1 Submitted");
+        });
+
+        document.getElementById('testForm2').addEventListener('submit', function() {
+            console.log("Form 2 Submitted");
+        });
+
+        // Log button click event
+        document.getElementById('testButton').addEventListener('click', function() {
+            console.log("Button Clicked");
+        });
+
+        // Log outbound link clicks
+        document.querySelectorAll('.outbound-link').forEach(function(link) {
+            link.addEventListener('click', function() {
+                console.log("Outbound Link Clicked: " + this.href);
+            });
+        });
+    </script>
+
+</body>
+</html>
